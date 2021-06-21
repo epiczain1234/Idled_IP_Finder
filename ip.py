@@ -13,21 +13,18 @@ for path in pathlib.Path(".").iterdir():
     num += 1
 numbers = input("Enter numbers of the files to analyze, seperated by spaces:")
 numbers = numbers.split(' ')
-chosen = set()
-for number in numbers:
-    chosen.add(int(number))
-print(chosen)
+chosen = set(numbers)
 
 index = 0
 for path in pathlib.Path(".").iterdir():
     # if you change the name of this file from ip.py, must change the line below or this file will be processed as well and cause errors
-    if path.is_file() and path.name != 'ip.py' and index in chosen:
+    if path.name != '.DS_Store' and path.name != 'ip.py' and str(index) in chosen:
         with open(path, 'r', encoding='windows-1252') as currFile:
             stamp = ''
             destination = ''
             virtualServer = ''
             for line in currFile:
-                print(line)
+           #      print(line)
                 if 'Virtual' in line:
                     words = line.split()
                     virtualServer = words[2] 
@@ -41,7 +38,7 @@ for path in pathlib.Path(".").iterdir():
                         ips[stamp] = []
                         ips[stamp].append((virtualServer, destination, path.name))
         currFile.close()
-        index += 1
+    index += 1
 
 skeys = ips.keys()
 
@@ -54,11 +51,10 @@ for key in skeys:
 
 # outputs dates based on those older than the input
 while True:
-    n = input('Enter Minimum time Idled for servers in days:')
+    n = input('Enter Minimum time Idled for servers (in days):')
     n = int(n)
     date_N_days_ago = dt.today() - timedelta(days=n)
     date = date_N_days_ago.strftime("%m/%d/%y")
-    print(date)
     date = date.split('/')
     stamp = int(date[2] + date[0] + date[1])
     for key in keys:
@@ -66,5 +62,5 @@ while True:
             print('For date ' + str(key) + ' The Idled Virtual Sever address and Destination IPs are: =========================================================================================')
             ipNd = ips[str(key)]
             for virtualServer, destination, filename in ipNd:
-                print('Virtual Server = ' + virtualServer + ' || Destination IP = ' + destination + ' || File Name = ' + filename)
+                print('File Name = ' + filename +  ' || Virtual Server = ' + virtualServer + ' || Destination IP = ' + destination)
 
