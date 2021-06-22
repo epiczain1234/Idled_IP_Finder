@@ -49,13 +49,19 @@ for key in skeys:
 pathnames = list(pathnames)
 pathnames.sort()
 print("The active load balancers are:")
+print('00. All')
+allLoadBalancers = []
 for i in range(len(pathnames)):
     print(str(i) + '. ' + pathnames[i][0:10])
+    allLoadBalancers.append(i)
 numbers = input("Enter numbers of the files to analyze, seperated by spaces:")
 numbers = numbers.split(' ')
 chosen = []
-for number in numbers:
-    chosen.append(int(number))
+if numbers[0] == '00':
+    chosen = allLoadBalancers
+else:
+    for number in numbers:
+        chosen.append(int(number))
 
 keys.sort()
 # outputs dates based on those older than the input
@@ -80,4 +86,3 @@ while True:
                         days = str(days).split(' ')
                         days = days[0]
                         print('File Names = ' + filename + ' || Idle Days = ' + str(days) +  ' || Virtual Server = ' + virtualServer + ' || Destination IP = ' + destination)
-
